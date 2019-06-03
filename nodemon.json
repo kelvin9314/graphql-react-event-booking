@@ -3,6 +3,5 @@
     "MONGO_USER": "tester",
     "MONGO_PASSWORD": "testtest",
     "MONGO_DB": "events-react-dev"
-
   }
 }
