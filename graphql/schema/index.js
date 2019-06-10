@@ -53,6 +53,15 @@ type User {
 }    
 
 """
+登入驗證後回傳的資訊
+"""
+type AuthData {
+  userID: ID!
+  token: String!
+  tokenExpiration: Int!
+}
+
+"""
 新增事件所需的資料
 """
 input EventInput {
@@ -75,6 +84,8 @@ type RootQuery {
   events: [Event!]!
   "預訂資訊"
   bookings: [Booking!]!
+  "登入"
+  login(email: String!, password: String!): AuthData!
 }
 
 type RootMutation {
