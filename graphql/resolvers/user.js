@@ -1,11 +1,12 @@
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 const UserModel = require('../../models/user.model')
 
 
 module.exports = {
 
-  createUser: async args =>{
+  createUser: async args => {
     try{
       const {email, password} = args.userInput
       const saltRounds = 12 
@@ -28,6 +29,23 @@ module.exports = {
     } catch(err){
       throw err
     }
-  }
+  },
+  login: async ({email, password}) => {
+    const user = await UserModel.findOne({ email: email})
 
+    if(!user){
+      throw new Error('Email or password is incorrect')
+    }
+    const isEqual = await bcrypt.compare(password,user.password)
+    if(!isEqual){
+      throw new Error('Email or password is incorrect')
+    }
+    const token = jwt.sign({userID: user.id, email: user.email}, process.env.SECRET_KEY, {expiresIn: '1h'})
+    
+    return {
+      userID: user.id,
+      token,
+      tokenExpiration: 1
+    }
+  }
 }

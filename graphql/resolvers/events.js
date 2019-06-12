@@ -1,4 +1,5 @@
 const EventModel = require('../../models/event.model') 
+const UserModel = require('../../models/user.model')
 const { transformEvent } = require('./mergeData')
 
 
@@ -15,7 +16,10 @@ module.exports = {
       throw err
     }
   },
-  createEvent: async args => {
+  createEvent: async (args, req) => {
+    if(!req.isAuth) {
+      throw new Error('Unauthenticated')
+    }
     const {title , description, price, date} = args.eventInput
 
     const event = new EventModel({
@@ -24,7 +28,7 @@ module.exports = {
       price: +price,
       date: new Date(date),
       // the ID of user, mongoose will automatically convert the string to an Object ID  
-      creator: '5cf5e63750bf031fb419c068'
+      creator: req.userID
     })
 
     let createdEvent
@@ -34,7 +38,7 @@ module.exports = {
 
       createdEvent = transformEvent(result)
 
-      const user = await UserModel.findById('5cf5e63750bf031fb419c068')
+      const user = await UserModel.findById(req.userID)
 
       if(!user){
         throw new Error('User not found')
