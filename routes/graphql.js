@@ -10,7 +10,7 @@ if(process.env.NODE_ENV == 'production') {
   flagFlag = false
 } 
 
-console.log(process.env.NODE_ENV );
+// console.log(process.env.NODE_ENV );
 
 module.exports =  graphqlHttp({
   schema: graphQlSchema,

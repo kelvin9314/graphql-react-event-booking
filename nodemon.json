@@ -5,6 +5,7 @@
     "MONGO_DB": "events-react-dev",
     "DB_SERVER": "localhost:27017",
     "DB_DATABASE": "events-react-dev",
-    "SECRET_KEY": "Micro_Program_CMS"
+    "SECRET_KEY": "Micro_Program_CMS",
+    "BACK_END_PORT": 4000
   }
 }
